@@ -1,0 +1,9 @@
+{
+  "name": "@edielemoine/envsubst",
+  "private": true,
+  "version": "1.3.0",
+  "repository": "edielemoine/envsubst",
+  "devDependencies": {
+    "semantic-release": "^19.0.3"
+  }
+}

@@ -1,0 +1,11 @@
+name: 'On pull request'
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    uses: edielemoine/envsubst/.github/workflows/test.yml@main
+    secrets: inherit

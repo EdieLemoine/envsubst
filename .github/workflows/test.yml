@@ -1,0 +1,23 @@
+name: 'Test'
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        go: [ '1.16', '1.17' ]
+
+    name: Go ${{ matrix.go }} testing
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go }}
+
+    - name: 'Run tests'
+      run: go test

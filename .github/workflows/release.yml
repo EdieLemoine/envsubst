@@ -1,0 +1,60 @@
+name: 'Release'
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: edielemoine/envsubst/.github/workflows/test.yml@main
+    secrets: inherit
+
+  release:
+    name: 'Release'
+    needs: test
+    runs-on: ubuntu-20.04
+    outputs:
+      tag: ${{ steps.semantic.outputs.release-version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: semantic release
+        uses: docker://ghcr.io/codfish/semantic-release-action:v1
+        id: semantic
+        with:
+          branches: |
+            [ 'main' ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  binaries:
+    name: Attach ${{ matrix.os }}/${{ matrix.arch }} binary
+    needs: release
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        os: [ 'linux', 'darwin' ]
+        arch: [ 'amd64', 'arm64' ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: wangyoucao577/go-release-action@v1.29
+        with:
+          release_tag: v${{ needs.release.outputs.tag }}
+          goversion: 1.17
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.os }}
+          goarch: ${{ matrix.arch }}
+          project_path: cmd/envsubst
