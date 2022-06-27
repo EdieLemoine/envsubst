@@ -7,21 +7,43 @@
 
 > Environment variables substitution for Go. see docs [below](#docs)
 
-#### Installation:
+#### Installation
 
 ##### From binaries
 
-Latest
-stable `envsubst` [prebuilt binaries for 64-bit Linux, or Mac OS X][releases]
+Latest stable `envsubst` [prebuilt binaries for 64-bit Linux, or MacOS][releases]
 are available via GitHub releases.
 
 ###### Linux and MacOS
 
-```console
-curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+**Using install script**
+
+```shell
+sh <(curl "https://raw.githubusercontent.com/EdieLemoine/envsubst/main/install.sh") v1.4.1
+```
+
+**Manually**
+
+With `uname`
+
+```shell
+curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.1/envsubst-v1.4.1-`uname -s`-`uname -m` -o envsubst
 chmod +x envsubst
 sudo mv envsubst /usr/local/bin
 ```
+
+> Note: This is why the install script was created: On Linux, running `uname -m`
+> on arm64 architecture will return 'aarch64', which will not work. The install
+> script transforms this to 'arm64'.
+
+Without `uname`
+
+```shell
+curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.1/envsubst-v1.4.1-linux-arm64 -o envsubst
+chmod +x envsubst
+sudo mv envsubst /usr/local/bin
+```
+
 
 ###### Windows
 
