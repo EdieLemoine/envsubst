@@ -1,33 +1,42 @@
 # envsubst
 
+[![Build status][workflow-image]][workflow-url]
 [![GoDoc][godoc-img]][godoc-url]
 [![License][license-image]][license-url]
-[![Build status][workflow-image]][workflow-url]
 [![Github All Releases][releases-image]][releases]
+[![GitHub release (latest SemVer)][latest-release-image]][releases]
 
-> Environment variables substitution for Go. see docs [below](#docs)
+Envsubst which supports [parameter substution and expansion][parameter-substitution-and-expansion]. Built for ARM and AMD architectures.
 
-#### Installation
+## Installation
 
-##### From binaries
+### From binaries
 
 Latest stable `envsubst` [prebuilt binaries for 64-bit Linux, or MacOS][releases]
 are available via GitHub releases.
 
-###### Linux and MacOS
+### Linux and MacOS
 
-**Using install script**
+#### Using install script
 
 ```shell
-sh <(curl "https://raw.githubusercontent.com/EdieLemoine/envsubst/main/install.sh") v1.4.1
+sh <(curl "https://raw.githubusercontent.com/EdieLemoine/envsubst/main/install.sh") v1.4.0
 ```
 
-**Manually**
+This will download the given release for your current OS and architecture, untar it, make it executable and move it to `/usr/local/bin/envsubst`.
+
+To choose another destination, pass it as the second argument.
+
+```shell
+sh <(curl "https://raw.githubusercontent.com/EdieLemoine/envsubst/main/install.sh") v1.4.0 /path/to/envsubst
+```
+
+#### Manually
 
 With `uname`
 
 ```shell
-curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.1/envsubst-v1.4.1-`uname -s`-`uname -m` -o envsubst
+curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.0/envsubst-v1.4.0-`uname -s`-`uname -m` -o envsubst
 chmod +x envsubst
 sudo mv envsubst /usr/local/bin
 ```
@@ -39,22 +48,21 @@ sudo mv envsubst /usr/local/bin
 Without `uname`
 
 ```shell
-curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.1/envsubst-v1.4.1-linux-arm64 -o envsubst
+curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.0/envsubst-v1.4.0-linux-arm64 -o envsubst
 chmod +x envsubst
 sudo mv envsubst /usr/local/bin
 ```
 
-
-###### Windows
+### Windows
 
 Download the latest prebuilt binary from [releases page][releases], or if you
 have curl installed:
 
 ```console
-curl -L https://github.com/EdieLemoine/envsubst/releases/download/v2.0.0/envsubst.exe
+curl -L https://github.com/EdieLemoine/envsubst/releases/download/v1.4.0/envsubst.exe
 ```
 
-##### With go
+### With go
 
 You can install via `go get` (provided you have installed go):
 
@@ -62,7 +70,7 @@ You can install via `go get` (provided you have installed go):
 go get github.com/EdieLemoine/envsubst/cmd/envsubst
 ```
 
-#### Using via cli
+## Using via cli
 
 ```sh
 envsubst < input.tmpl > output.text
@@ -70,7 +78,7 @@ echo 'welcome $HOME ${USER:=a8m}' | envsubst
 envsubst -help
 ```
 
-#### Imposing restrictions
+## Imposing restrictions
 
 There are three command line flags with which you can cause the substitution to
 stop with an error code, should the restriction associated with the flag not be
@@ -118,7 +126,7 @@ func main() {
 }
 ```
 
-### Docs
+## Docs
 
 > api docs here: [![GoDoc][godoc-img]][godoc-url]
 
@@ -134,15 +142,19 @@ func main() {
 | `$$var`            | Escape expressions. Result will be `$var`.                           |
 
 <sub>Most of the rows in this table were taken
-from [here](http://www.tldp.org/LDP/abs/html/refcards.html#AEN22728)</sub>
+from [here][parameter-substitution-and-expansion]</sub>
 
-### See also
+## See also
 
 * `os.ExpandEnv(s string) string` - only supports `$var` and `${var}` notations
 
-#### License
+### License
 
 MIT
+
+## Contributing
+
+This was originally made by [a8m](https://github.com/a8m). I just forked it to add arm64 binaries. I'm willing to maintain this, though, so pull requests are welcome.
 
 [godoc-img]: https://img.shields.io/badge/godoc-reference-blue.svg?style=for-the-badge
 [godoc-url]: https://godoc.org/github.com/EdieLemoine/envsubst
@@ -150,5 +162,7 @@ MIT
 [license-url]: LICENSE
 [releases-image]: https://img.shields.io/github/downloads/EdieLemoine/envsubst/total.svg?style=for-the-badge
 [releases]: https://github.com/EdieLemoine/envsubst/releases
-[workflow-image]: https://img.shields.io/github/workflow/status/edielemoine/envsubst/release.svg?style=for-the-badge
-[workflow-url]: https://img.shields.io/github/workflow/status/edielemoine/envsubst/release
+[workflow-image]: https://img.shields.io/github/workflow/status/edielemoine/envsubst/Release?style=for-the-badge
+[workflow-url]: https://github.com/EdieLemoine/envsubst/actions/workflows/release.yml
+[parameter-substitution-and-expansion]: https://tldp.org/LDP/abs/html/refcards.html#AEN22728
+[latest-release-image]: https://img.shields.io/github/v/release/edielemoine/envsubst?style=for-the-badge
