@@ -16,7 +16,8 @@ jobs:
     needs: test
     runs-on: ubuntu-20.04
     outputs:
-      tag: ${{ steps.semantic.outputs.release-version }}
+      release-version: ${{ steps.semantic.outputs.release-version }}
+      new-release-published: ${{ steps.semantic.outputs.new-release-published }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -42,6 +43,7 @@ jobs:
   binaries:
     name: Attach ${{ matrix.os }}/${{ matrix.arch }} binary
     needs: release
+    if: needs.release.outputs.new-release-published == 'true'
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -52,7 +54,7 @@ jobs:
 
       - uses: wangyoucao577/go-release-action@v1.29
         with:
-          release_tag: v${{ needs.release.outputs.tag }}
+          release_tag: v${{ needs.release.outputs.release-version }}
           goversion: 1.17
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.os }}
