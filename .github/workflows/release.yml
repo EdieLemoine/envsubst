@@ -3,6 +3,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - ./**/*.md
+      - .gitignore
+      - install.sh
+      - package.json
+      - pnpm-lock.yaml
 
   workflow_dispatch:
 
